@@ -29,7 +29,7 @@ jobs:
         run: sudo apt-get install -y gh
 
       - name: Authenticate with GitHub CLI
-        run: gh auth login --with-token
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
       - name: Get and Echo PR Labels
         run: |
@@ -126,7 +126,7 @@ jobs:
         run: sudo apt-get install -y gh
 
       - name: Authenticate with GitHub CLI
-        run: gh auth login --with-token
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
       - name: Get Pull Request Details
         id: pr-details
