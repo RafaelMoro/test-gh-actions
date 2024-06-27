@@ -42,6 +42,6 @@ jobs:
           run: |
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "Update README with details of PR #${{ github.event.pull_request.number }}"
-            git push origin HEAD:develop
+            git add SOME.md
+            git commit -m "Update SOME with details of PR #${{ github.event.pull_request.number }}"
+            git push origin HEAD:fix/modify-changelog
