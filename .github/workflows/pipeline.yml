@@ -29,7 +29,7 @@ jobs:
         run: sudo apt-get install -y gh
 
       - name: Authenticate with GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        run: gh auth login --with-token
 
       - name: Get and Echo PR Labels
         run: |
@@ -126,24 +126,29 @@ jobs:
         run: sudo apt-get install -y gh
 
       - name: Authenticate with GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        run: gh auth login --with-token
 
       - name: Get Pull Request Details
         id: pr-details
         run: |
-          PR_NUMBER=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
-          PR_TITLE=$(gh pr view $PR_NUMBER --json title --jq .title)
-          PR_BODY=$(gh pr view $PR_NUMBER --json body --jq .body)
-          PR_URL=$(gh pr view $PR_NUMBER --json url --jq .url)
-          echo "PR_TITLE=$PR_TITLE" >> $GITHUB_ENV
-          echo "PR_BODY=$PR_BODY" >> $GITHUB_ENV
-          echo "PR_URL=$PR_URL" >> $GITHUB_ENV
+          pr_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
+          pr_title=$(gh pr view $pr_number --json title --jq .title)
+          pr_body=$(gh pr view $pr_number --json body --jq .body)
+          pr_url=$(gh pr view $pr_number --json url --jq .url)
+          echo "PR Number: $pr_number"
+          echo "PR Title: $pr_title"
+          echo "PR Body: $pr_body"
+          echo "PR URL: $pr_url"
+          echo "pr_title=$pr_title" >> "$GITHUB_ENV"
+          echo "pr_body=$pr_body" >> "$GITHUB_ENV"
+          echo "pr_url=$pr_url" >> "$GITHUB_ENV"
 
       - name: Get Version from package.json
         id: get-version
         run: |
-          NEW_VERSION=$(jq -r '.version' < package.json)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          new_version=$(jq -r '.version' < package.json)
+          echo "New Version: $new_version"
+          echo "new_version=$new_version" >> "$GITHUB_ENV"
 
       - name: Update CHANGELOG.md
         run: |
