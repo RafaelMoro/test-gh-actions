@@ -131,14 +131,15 @@ jobs:
       - name: Get Pull Request Details
         id: pr-details
         run: |
-          pr_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
-          pr_title=$(gh pr view $pr_number --json title --jq .title)
-          pr_body=$(gh pr view $pr_number --json body --jq .body)
-          pr_current_url=$(gh pr view $pr_number --json url --jq .url)
-          echo "PR Number: $pr_number"
+          pr_current_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
+          pr_title=$(gh pr view $pr_current_number --json title --jq .title)
+          pr_body=$(gh pr view $pr_current_number --json body --jq .body)
+          pr_current_url=$(gh pr view $pr_current_number --json url --jq .url)
+          echo "PR Number: $pr_current_number"
           echo "PR Title: $pr_title"
           echo "PR Body: $pr_body"
           echo "PR URL: $pr_current_url"
+          echo "pr_current_number=$pr_current_number" >> "$GITHUB_ENV"
           echo "pr_title=$pr_title" >> "$GITHUB_ENV"
           echo "pr_body=$pr_body" >> "$GITHUB_ENV"
           echo "pr_current_url=$pr_current_url" >> "$GITHUB_ENV"
@@ -150,11 +151,18 @@ jobs:
           echo "New Version: $new_version"
           echo "new_version=$new_version" >> "$GITHUB_ENV"
 
-      - name: Update CHANGELOG.md
+      - name: Get info changelog
         run: |
-          DATE=$(date +%Y-%m-%d)
-          NEW_CONTENT="## v${NEW_VERSION} (${DATE})\n\n### Pull Requests\n[#$PR_NUMBER]($PR_URL) | $PR_TITLE\n$PR_BODY\n"
-          echo -e "${NEW_CONTENT}\n$(cat CHANGELOG.md)" > CHANGELOG.md
+          new_date=$(date +%Y-%m-%d)
+          new_content="## v${new_version} (${new_date})\n\n### Pull Requests\n[#$pr_current_number]($pr_current_url) | $pr_title\n$pr_body\n"
+          echo "New Content: $new_content"
+          echo "new_content=$new_content" >> "$GITHUB_ENV"
+
+      - name: Update CHANGELOG.md
+        uses: jaywcjlove/github-action-modify-file-content@main
+        with:
+          path: CHANGELOG.md
+          body: "${new_content}"
 
       - name: Commit changes
         run: |
