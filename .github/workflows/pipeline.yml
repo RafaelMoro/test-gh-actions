@@ -67,7 +67,9 @@ jobs:
 
       - name: Extract original version
         run: |
-          echo "ORIGINAL_VERSION"=$(node -p "require('./package.json').version" >> $GITHUB_ENV)
+          original_version=$(node -p "require('./package.json').version")
+          echo "Original version: $original_version"
+          echo "original_version=$original_version" >> "$GITHUB_ENV"
 
       - name: Create "major version"
         if: contains(github.event.pull_request.labels.*.name, 'major')
