@@ -3,7 +3,7 @@ name: Update Changelog on PR Merge
 on:
   pull_request:
     branches:
-      - develop
+      - main
     types: [closed, opened, synchronize]
 
 jobs:
