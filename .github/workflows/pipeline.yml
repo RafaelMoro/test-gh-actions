@@ -133,9 +133,12 @@ jobs:
         run: |
           pr_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
           pr_title=$(gh pr view $pr_number --json title --jq .title)
+          pr_body=$(gh pr view $pr_number --json body --jq .body)
           echo "PR Number: $pr_number"
           echo "PR Title: $pr_title"
+          echo "PR Body: $pr_body"
           echo "pr_title=$pr_title" >> "$GITHUB_ENV"
+          echo "pr_body=$pr_body" >> "$GITHUB_ENV"
 
       - name: Get Version from package.json
         id: get-version
