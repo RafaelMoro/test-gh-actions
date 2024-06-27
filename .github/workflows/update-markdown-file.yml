@@ -21,6 +21,9 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v3
 
+        - name: Check current branch
+          run: git branch
+
         - name: Set up Node.js
           uses: actions/setup-node@v3
           with:
@@ -32,17 +35,31 @@ jobs:
         - name: Authenticate with GitHub CLI
           run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
+        - name: switching from HTTPS to SSH
+          run: git remote set-url origin ${{ secrets.GITHUB_TOKEN }}
+
         - name: Update SOME.md
           run: |
             new_content="## v0.1.0 (2024-06-27)\n\n### Nuevo titulo\n Otra cosa mas\nMas texto\n"
             echo "Nuevo contenido: $new_content"
             echo -e "${new_content}\n$(cat SOME.md)" > SOME.md
 
-        - name: Commit changes
+        - name: Check user details
           run: |
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git pull origin fix/modify-changelog
-            git add SOME.md
-            git commit -m "Update SOME with details of PR #${{ github.event.pull_request.number }}"
-            git push origin fix/modify-changelog
+
+        - name: check for changes
+          run: git status
+        
+        - name: stage changed files
+          run: git add .
+
+        - name: commit changed files
+          run: git commit -m "Update SOME with details of PR #${{ github.event.pull_request.number }}"
+
+        - name: fetch from master
+          run: git fetch origin fix/modify-changelog
+
+        - name: push code to master
+          run: git push origin HEAD:fix/modify-changelog
