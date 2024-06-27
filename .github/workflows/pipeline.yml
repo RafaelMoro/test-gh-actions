@@ -131,15 +131,15 @@ jobs:
       - name: Get Pull Request Details
         id: pr-details
         run: |
-          pr_current_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
-          pr_title=$(gh pr view $pr_current_number --json title --jq .title)
-          pr_body=$(gh pr view $pr_current_number --json body --jq .body)
-          pr_current_url=$(gh pr view $pr_current_number --json url --jq .url)
-          echo "PR Number: $pr_current_number"
+          new_pr_number=$(jq -r '.pull_request.number' < "${GITHUB_EVENT_PATH}")
+          pr_title=$(gh pr view $new_pr_number --json title --jq .title)
+          pr_body=$(gh pr view $new_pr_number --json body --jq .body)
+          pr_current_url=$(gh pr view $new_pr_number --json url --jq .url)
+          echo "PR Number: $new_pr_number"
           echo "PR Title: $pr_title"
           echo "PR Body: $pr_body"
           echo "PR URL: $pr_current_url"
-          echo "pr_current_number=$pr_current_number" >> "$GITHUB_ENV"
+          echo "new_pr_number=$new_pr_number" >> "$GITHUB_ENV"
           echo "pr_title=$pr_title" >> "$GITHUB_ENV"
           echo "pr_body=$pr_body" >> "$GITHUB_ENV"
           echo "pr_current_url=$pr_current_url" >> "$GITHUB_ENV"
@@ -154,7 +154,7 @@ jobs:
       - name: Get info changelog
         run: |
           new_date=$(date +%Y-%m-%d)
-          new_content="## v${new_version} (${new_date})\n\n### Pull Requests\n[#$pr_current_number]($pr_current_url) | $pr_title\n$pr_body\n"
+          new_content="## v${new_version} (${new_date})\n\n### Pull Requests\n[#$new_pr_number]($pr_current_url) | $pr_title\n$pr_body\n"
           echo "New Content: $new_content"
           echo "new_content=$new_content" >> "$GITHUB_ENV"
 
