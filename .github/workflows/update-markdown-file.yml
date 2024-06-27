@@ -42,7 +42,7 @@ jobs:
           run: |
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git pull origin fix/modify-changelog
             git add SOME.md
             git commit -m "Update SOME with details of PR #${{ github.event.pull_request.number }}"
-            git pull origin fix/modify-changelog
             git push origin fix/modify-changelog
