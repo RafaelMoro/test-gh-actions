@@ -15,7 +15,8 @@ jobs:
         uses: styfle/cancel-workflow-action@0.9.1
 
   check_label:
-    uses: .github/workflows/verify_pr.yml
+    uses: ./github/workflows/verify_pr.yml
+    secrets: inherit
 
   bump_version:
     name: Create and push tag
