@@ -1,3 +1,7 @@
+## v0.1.16 (2024-06-28)
+
+### Pull Requests
+[#20](https://github.com/RafaelMoro/test-gh-actions/pull/20) | Change reference of check label in pipeline 3/n/n
 ## v0.1.15 (2024-06-28)
 
 ### Pull Requests
