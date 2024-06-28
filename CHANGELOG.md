@@ -1,3 +1,7 @@
+## v0.1.14 (2024-06-28)
+
+### Pull Requests
+[#16](https://github.com/RafaelMoro/test-gh-actions/pull/16) | Remove pr's body from update changelog
 ## v0.1.12 (2024-06-28)
 
 ### Pull Requests
