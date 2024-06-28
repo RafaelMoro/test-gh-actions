@@ -1,3 +1,9 @@
+## v0.1.18 (2024-06-28)
+
+### Pull Requests
+[#23](https://github.com/RafaelMoro/test-gh-actions/pull/23) | add space
+
+
 ## v0.1.17 (2024-06-28)
 
 ### Pull Requests
