@@ -53,6 +53,7 @@ jobs:
   bump_version:
     name: Create and push tag
     needs: [check_label]
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -108,7 +109,6 @@ jobs:
 
   update-changelog:
     name: Update Changelog
-    needs: [bump_version]
     runs-on: ubuntu-latest
 
     steps:
