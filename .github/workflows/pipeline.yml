@@ -165,4 +165,5 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Modify SOME.md
+          commit_message: Modify CHANGELOG.md
+          branch: main
