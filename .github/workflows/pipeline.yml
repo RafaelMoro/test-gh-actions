@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [closed, opened, synchronize]
+    types: [closed]
 
 jobs:
 
@@ -109,6 +109,8 @@ jobs:
 
   update-changelog:
     name: Update Changelog
+    needs: [bump_version]
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
